@@ -1,0 +1,80 @@
+﻿@using OzetAPP.Models.Entity
+@model List<tbl_islemler>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_mainLayout.cshtml";
+}
+
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-6 col-sm-12">
+            <div class="title">
+                <h4>Özet</h4>
+            </div>
+            <nav aria-label="breadcrumb" role="navigation">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/Home/Index">Ana Sayfa</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Özet</li>
+                </ol>
+            </nav>
+        </div>
+
+    </div>
+</div>
+@{ decimal money = 0; }
+<div class="invoice-wrap">
+    <div class="invoice-box">
+        <div class="invoice-header">
+            <div class="logo text-center">
+                <img src="vendors/images/deskapp-logo.png" alt="">
+            </div>
+        </div>
+        <h4 class="text-center mb-30 weight-600">Özet</h4>
+
+        <div class="invoice-desc pb-30">
+            <div class="invoice-desc-head clearfix">
+                <div class="invoice-sub">Tip</div>
+                <div class="invoice-rate">Miktar</div>
+                <div class="invoice-hours">Tüketim</div>
+                <div class="invoice-subtotal">Bakiye</div>
+
+            </div>
+            <div class="invoice-desc-body">
+                <ul>
+                    @foreach (var item in Model)
+                    {
+                        if (item.islem_tip == true) { money -= decimal.Parse(item.islem_deger1.ToString()); } else { money += decimal.Parse(item.islem_deger1.ToString()); }
+                        <li class="clearfix">
+                            <div class="invoice-sub">@(item.islem_tip == true ? "Harcama" : "Gelir")</div>
+                            <div class="invoice-rate">@(item.islem_deger1)₺</div>
+                            <div class="invoice-hours">@(item.islem_deger2 == null ? "Yok" : item.islem_deger2.ToString())</div>
+                            <div class="invoice-subtotal"><span class="weight-600">@(item.islem_bakiye)₺</span></div>
+
+                        </li>
+
+                    }
+
+
+                </ul>
+            </div>
+            <div class="invoice-desc-footer">
+                <div class="invoice-desc-head clearfix">
+
+                    <div class="invoice-rate">Tarih İtibariyle</div>
+                    <div class="invoice-subtotal">Aylık Bakiye</div>
+                </div>
+                <div class="invoice-desc-body">
+                    <ul>
+                        <li class="clearfix">
+                            @{  string status = money > 0 ? "text-success" : (money < 0 ? "text-danger" : "text-info"); }
+                            <div class="invoice-rate font-20 weight-600">@DateTime.Now.ToString("dd-MMM-yyyy")</div>
+                            <div class="invoice-subtotal"><span class="weight-600 font-24 @status">@money₺</span></div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+

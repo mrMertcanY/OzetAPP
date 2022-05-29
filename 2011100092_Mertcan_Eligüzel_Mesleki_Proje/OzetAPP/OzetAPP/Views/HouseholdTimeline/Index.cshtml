@@ -1,0 +1,60 @@
+﻿@using OzetAPP.Models.Entity
+@model List<tbl_islemler>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_mainLayout.cshtml";
+}
+
+
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-6 col-sm-12">
+            <div class="title">
+                <h4>Hane Zaman Şeridi</h4>
+            </div>
+            <nav aria-label="breadcrumb" role="navigation">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/Home/Index">Ana Sayfa</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Hane Zaman Şeridi</li>
+                </ol>
+            </nav>
+        </div>
+
+    </div>
+</div>
+
+<div class="card-box height-100-p overflow-hidden">
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="timeline" role="tabpanel">
+            <div class="profile-timeline">
+                @{ string[] aylar = { "Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık" }; }
+                <div class="timeline-month">
+                    <h5>@aylar[((int)(ViewBag.tarih)) - 1]</h5>
+                </div>
+                <div class="profile-timeline-list">
+                    <ul>
+                        @foreach (var item in Model)
+                        {
+
+                            <li>
+                                <div class="date" data-toggle="tooltip" title="@((DateTime)item.islem_tarih)">@(((DateTime)item.islem_tarih).Day)</div>
+                                <div class="task-name"><i data-toggle="tooltip" title="@(item.islem_tip == true ? "Harcama" : "Yükleme")" class="@(item.islem_tip == true ? "icon-copy dw dw-down-arrow2" : "icon-copy dw dw-up-arrow2")"></i> @item.tbl_kullanicilar.kullanici_isim</div>
+                                <p><span class="@(item.islem_tip == true ? "badge badge-pill badge-danger" : "badge badge-pill badge-success")">@item.islem_deger1₺</span></p>
+                                <div class="task-time">@(((DateTime)item.islem_tarih).Hour):@(((DateTime)item.islem_tarih).Minute)</div>
+                            </li>
+
+
+                        }
+                    </ul>
+                </div>
+
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="OzetAppDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="tbl_haneler">
+    <Key>
+      <PropertyRef Name="hane_id" />
+    </Key>
+    <Property Name="hane_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="hane_kod" Type="nvarchar" MaxLength="50" />
+    <Property Name="hane_durum" Type="bit" />
+    <Property Name="hane_bakiye" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="hane_sahip" Type="int" />
+  </EntityType>
+  <EntityType Name="tbl_islemler">
+    <Key>
+      <PropertyRef Name="islem_id" />
+    </Key>
+    <Property Name="islem_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="islem_kullanici" Type="int" />
+    <Property Name="islem_kategori" Type="int" />
+    <Property Name="islem_tip" Type="bit" />
+    <Property Name="islem_deger1" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="islem_deger2" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="islem_hane" Type="int" />
+    <Property Name="islem_tarih" Type="datetime" />
+    <Property Name="islem_bakiye" Type="decimal" Precision="18" Scale="2" />
+  </EntityType>
+  <EntityType Name="tbl_kategoriler">
+    <Key>
+      <PropertyRef Name="kategori_id" />
+    </Key>
+    <Property Name="kategori_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="kategori_ad" Type="nvarchar" MaxLength="100" />
+    <Property Name="kategori_tuketimtur" Type="nvarchar" MaxLength="10" />
+    <Property Name="kategori_kullanici" Type="int" />
+  </EntityType>
+  <EntityType Name="tbl_kullanicilar">
+    <Key>
+      <PropertyRef Name="kullanici_id" />
+    </Key>
+    <Property Name="kullanici_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="kullanici_ad" Type="nvarchar" MaxLength="100" />
+    <Property Name="kullanici_isim" Type="nvarchar" MaxLength="100" />
+    <Property Name="kullanici_sifre" Type="nvarchar" MaxLength="100" />
+    <Property Name="kullanici_hane" Type="int" />
+    <Property Name="kullanici_fotograf" Type="nvarchar(max)" />
+    <Property Name="kullanici_bakiye" Type="decimal" Precision="18" Scale="2" />
+  </EntityType>
+  <Association Name="FK_tbl_haneler_tbl_kullanicilar">
+    <End Role="tbl_kullanicilar" Type="Self.tbl_kullanicilar" Multiplicity="0..1" />
+    <End Role="tbl_haneler" Type="Self.tbl_haneler" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_kullanicilar">
+        <PropertyRef Name="kullanici_id" />
+      </Principal>
+      <Dependent Role="tbl_haneler">
+        <PropertyRef Name="hane_sahip" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbl_islemler_tbl_haneler">
+    <End Role="tbl_haneler" Type="Self.tbl_haneler" Multiplicity="0..1" />
+    <End Role="tbl_islemler" Type="Self.tbl_islemler" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_haneler">
+        <PropertyRef Name="hane_id" />
+      </Principal>
+      <Dependent Role="tbl_islemler">
+        <PropertyRef Name="islem_hane" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbl_islemler_tbl_kategoriler">
+    <End Role="tbl_kategoriler" Type="Self.tbl_kategoriler" Multiplicity="0..1" />
+    <End Role="tbl_islemler" Type="Self.tbl_islemler" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_kategoriler">
+        <PropertyRef Name="kategori_id" />
+      </Principal>
+      <Dependent Role="tbl_islemler">
+        <PropertyRef Name="islem_kategori" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbl_islemler_tbl_kullanicilar">
+    <End Role="tbl_kullanicilar" Type="Self.tbl_kullanicilar" Multiplicity="0..1" />
+    <End Role="tbl_islemler" Type="Self.tbl_islemler" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_kullanicilar">
+        <PropertyRef Name="kullanici_id" />
+      </Principal>
+      <Dependent Role="tbl_islemler">
+        <PropertyRef Name="islem_kullanici" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbl_kategoriler_tbl_kullanicilar">
+    <End Role="tbl_kullanicilar" Type="Self.tbl_kullanicilar" Multiplicity="0..1" />
+    <End Role="tbl_kategoriler" Type="Self.tbl_kategoriler" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_kullanicilar">
+        <PropertyRef Name="kullanici_id" />
+      </Principal>
+      <Dependent Role="tbl_kategoriler">
+        <PropertyRef Name="kategori_kullanici" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbl_kullanicilar_tbl_haneler">
+    <End Role="tbl_haneler" Type="Self.tbl_haneler" Multiplicity="0..1" />
+    <End Role="tbl_kullanicilar" Type="Self.tbl_kullanicilar" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_haneler">
+        <PropertyRef Name="hane_id" />
+      </Principal>
+      <Dependent Role="tbl_kullanicilar">
+        <PropertyRef Name="kullanici_hane" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="OzetAppDBModelStoreContainer">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_haneler" EntityType="Self.tbl_haneler" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_islemler" EntityType="Self.tbl_islemler" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_kategoriler" EntityType="Self.tbl_kategoriler" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_kullanicilar" EntityType="Self.tbl_kullanicilar" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_tbl_haneler_tbl_kullanicilar" Association="Self.FK_tbl_haneler_tbl_kullanicilar">
+      <End Role="tbl_kullanicilar" EntitySet="tbl_kullanicilar" />
+      <End Role="tbl_haneler" EntitySet="tbl_haneler" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbl_islemler_tbl_haneler" Association="Self.FK_tbl_islemler_tbl_haneler">
+      <End Role="tbl_haneler" EntitySet="tbl_haneler" />
+      <End Role="tbl_islemler" EntitySet="tbl_islemler" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbl_islemler_tbl_kategoriler" Association="Self.FK_tbl_islemler_tbl_kategoriler">
+      <End Role="tbl_kategoriler" EntitySet="tbl_kategoriler" />
+      <End Role="tbl_islemler" EntitySet="tbl_islemler" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbl_islemler_tbl_kullanicilar" Association="Self.FK_tbl_islemler_tbl_kullanicilar">
+      <End Role="tbl_kullanicilar" EntitySet="tbl_kullanicilar" />
+      <End Role="tbl_islemler" EntitySet="tbl_islemler" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbl_kategoriler_tbl_kullanicilar" Association="Self.FK_tbl_kategoriler_tbl_kullanicilar">
+      <End Role="tbl_kullanicilar" EntitySet="tbl_kullanicilar" />
+      <End Role="tbl_kategoriler" EntitySet="tbl_kategoriler" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbl_kullanicilar_tbl_haneler" Association="Self.FK_tbl_kullanicilar_tbl_haneler">
+      <End Role="tbl_haneler" EntitySet="tbl_haneler" />
+      <End Role="tbl_kullanicilar" EntitySet="tbl_kullanicilar" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,272 @@
+﻿@using OzetAPP.Models.Entity
+@model Tuple<List<tbl_islemler>, List<tbl_kategoriler>>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_mainLayout.cshtml";
+}
+
+@if (ViewData["hata"] != null)
+{
+    <script>
+        window.onload = swal({ text: "Hatalı İşlem Yaptığınız İçin Eklenemedi", icon: "error", button: "Tamam" }).then((value) => { window.location.href = "/Transactions/Index"; });
+    </script>
+
+}
+else if (ViewData["basarili"] != null)
+{
+    <script>
+        window.onload = swal({ text: "İşlem Başarılı", icon: "success", button: "Tamam" }).then((value) => { window.location.href = "/Transactions/Index"; });
+    </script>
+}
+
+
+<div class="modal fade" id="eklemodal">
+    <div class="modal-dialog bg-white box-shadow border-radius-10">
+        <div class="modal-content">
+            <div class="modal-header"><h2 class="modal-title text-center text-primary">Ekle</h2></div>
+
+            <form class="form-group" align="center" method="post" action="/Transactions/IslemEkle">
+                <div class="modal-body">
+                    <label style="font-weight:bold">İşlem</label>
+
+                    <div class="custom-control custom-checkbox mb-5 row justify-content-center">
+
+                        <input type="checkbox" class="custom-control-input" onchange="onChanged(this)" checked="checked" id="customCheck1-1" value="true" name="islem_islem">
+                        <script>
+                            function onChanged(element) { document.getElementById('lblyazi1').innerHTML = element.checked == true ? "Bireysel" : "Hane"; }
+                        </script>
+                        <label id="lblyazi1" class="custom-control-label" for="customCheck1-1">Bireysel</label>
+                    </div>
+                    <br />
+                    <label style="font-weight:bold">Kategori</label>
+                    <br />
+                    <select class="dropdown-toggle form-control" name="islem_kategori">
+                        <option value="0">Yok</option>
+                        @foreach (var item in Model.Item2)
+                        {
+                            <option value="@item.kategori_id">@item.kategori_ad</option>
+                        }
+                    </select>
+                    <br />
+                    <label style="font-weight:bold">Tip</label>
+                    <div class="custom-control custom-checkbox mb-5 row justify-content-center">
+                        <input type="checkbox" class="custom-control-input" checked="checked" value="true" name="islem_tip" id="customCheck2-1">
+                        <script>
+                            var b = document.querySelector('#customCheck2-1');
+                            b.onchange = function (element) { document.getElementById('lblyazi2').innerHTML = b.checked == true ? "Harcama" : "Yükleme"; document.getElementById('lbltuketim').style.display = b.checked == true ? "block" : "none"; document.getElementById('inptuketim').style.display = b.checked == true ? "block" : "none"; }
+                        </script>
+                        <label id="lblyazi2" class="custom-control-label" for="customCheck2-1">Harcama</label>
+                    </div>
+                    <br />
+                    <label style="font-weight:bold">Tutar</label>
+                    <input class="form-control" step=".01" value="0" name="islem_tutar" type="number">
+
+                    <br />
+                    <label id="lbltuketim" style="font-weight:bold">Tüketim</label>
+                    <input id="inptuketim" class="form-control" step=".01" value="0" name="islem_tuketim" type="number">
+
+
+
+
+
+                </div>
+                <input type="submit" class="btn btn-outline-primary form-control" value="Ekle" />
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="guncellemodal">
+    <div class="modal-dialog bg-white box-shadow border-radius-10">
+        <div class="modal-content">
+            <div class="modal-header"><h2 class="modal-title text-center text-primary">Güncelle</h2></div>
+
+            <form class="form-group" align="center" method="post" action="/Transactions/IslemGuncelle">
+                <div class="modal-body">
+                    <input id="modalid" hidden="hidden" type="text" name="islem_id" />
+                    <label style="font-weight:bold">İşlem</label>
+
+                    <div class="custom-control custom-checkbox mb-5 row justify-content-center">
+
+                        <input type="checkbox" class="custom-control-input" onchange="onChange(this)" checked="checked" id="customCheck3-1" value="true" name="islem_islem">
+                        <script>
+                            function onChange(element) { document.getElementById('lblyazi3').innerHTML = element.checked == true ? "Bireysel" : "Hane"; }
+                        </script>
+                        <label id="lblyazi3" class="custom-control-label" for="customCheck3-1">Bireysel</label>
+                    </div>
+                    <br />
+                    <label style="font-weight:bold">Kategori</label>
+                    <br />
+                    <select class="dropdown-toggle form-control" name="islem_kategori">
+                        <option value="0">Yok</option>
+                        @foreach (var item in Model.Item2)
+                        {
+                            <option id="optionkategori_@item.kategori_id" value="@item.kategori_id">@item.kategori_ad</option>
+                        }
+                    </select>
+                    <br />
+                    <label style="font-weight:bold">Tip</label>
+                    <div class="custom-control custom-checkbox mb-5 row justify-content-center">
+                        <input type="checkbox" class="custom-control-input" checked="checked" value="true" name="islem_tip" id="customCheck4-1">
+                        <script>
+                            var a = document.querySelector('#customCheck4-1');
+                            a.onchange = function (element) { document.getElementById('lblyazi4').innerHTML = a.checked == true ? "Harcama" : "Yükleme"; document.getElementById('lbltuketim1').style.display = a.checked == true ? "block" : "none"; document.getElementById('inputtuketim1').style.display = a.checked == true ? "block" : "none"; }
+                        </script>
+                        <label id="lblyazi4" class="custom-control-label" for="customCheck4-1">Harcama</label>
+                    </div>
+                    <br />
+                    <label style="font-weight:bold">Tutar</label>
+                    <input id="inputtutar" class="form-control" step=".01" value="0" name="islem_tutar" type="number">
+
+                    <br />
+                    <label id="lbltuketim1" style="font-weight:bold">Tüketim</label>
+                    <input id="inputtuketim1" class="form-control" step=".01" value="0" name="islem_tuketim" type="number">
+
+
+
+
+
+                </div>
+                <input type="submit" class="btn btn-outline-primary form-control" value="Güncelle" />
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="silmodal">
+    <div class="modal-dialog bg-white box-shadow border-radius-10">
+        <div class="modal-content">
+            <div class="modal-header"><h2 class="modal-title text-center text-primary">Sil</h2></div>
+
+            <form class="form-group" align="center" method="post" action="/Transactions/IslemSil">
+                <div class="modal-body">
+                    <input id="modalislemid" hidden="hidden" type="text" name="p" />
+                </div>
+                <input type="submit" class="btn btn-outline-danger col-md-3" value="Sil" />
+                <button type="button" class="btn btn-outline-warning col-md-6" data-dismiss="modal">Vazgeç</button>
+            </form>
+            
+        </div>
+    </div>
+</div>
+
+
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-6 col-sm-12">
+            <div class="title">
+                <h4>İşlemler</h4>
+            </div>
+            <nav aria-label="breadcrumb" role="navigation">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/Home/Index">Ana Sayfa</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">İşlemler</li>
+                </ol>
+            </nav>
+        </div>
+
+    </div>
+</div>
+
+<div class="">
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>İşlem</th>
+                <th>Kategori</th>
+                <th>Tip</th>
+                <th>Tutar</th>
+                <th>Tüketim</th>
+                <th>Tarih</th>
+                <th>Bakiye</th>
+                <th>Etkileşim</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Item1.Count < 1)
+            {
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <div class="dropdown">
+                            <a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+                                <i class="dw dw-more"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+                                <a class="dropdown-item" data-toggle="modal" data-target="#eklemodal" href="#eklemodal"><i class="dw dw-rocket"></i> Ekle</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+            @foreach (var item in Model.Item1)
+            {
+                <tr>
+
+                    <td>@(item.islem_hane == null ? "Bireysel" : "Hane")</td>
+                    <td>@(item.islem_kategori == null ? "Yok" : item.tbl_kategoriler.kategori_ad)</td>
+                    <td><span class="badge badge-pill badge-dark" data-toggle="tooltip" title="@(item.islem_tip == true ? "Harcama" : "Yükleme")"><i class="@(item.islem_tip == true ? "icon-copy dw dw-down-arrow2" : "icon-copy dw dw-up-arrow2")" data-color="@(item.islem_tip == true ? "#e74c3c" : "#2ecc71")"></i></span></td>
+                    <td>@(item.islem_deger1)₺</td>
+                    <td>@(item.islem_deger2 == null ? "Yok" : item.islem_deger2.ToString() + " " + (item.tbl_kategoriler?.kategori_tuketimtur))</td>
+
+                    <td>@(((DateTime)item.islem_tarih).ToString("dd-MMM-yyyy"))</td>
+                    <td>@(item.islem_bakiye)₺</td>
+                    <td>
+                        <div class="dropdown">
+                            <a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+                                <i class="dw dw-more"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+                               
+                                <a class="dropdown-item" data-toggle="modal" data-target="#eklemodal" href="#eklemodal"><i class="dw dw-rocket"></i> Ekle</a>
+                                @{decimal deger2 = item.islem_deger2 == null ? 0 : decimal.Parse(item.islem_deger2.ToString());}
+                                @{string tip = item.islem_hane == null ? "true" : "false"; string tip2 = item.islem_tip == true ? "true" : "false";}
+                                <a class="dropdown-item" data-toggle="modal" data-target="#guncellemodal" href="#guncellemodal" onclick="Edit(@item.islem_id, @item.islem_deger1, @deger2,@tip, @tip2 ,@item.islem_kategori)"><i class="dw dw-edit2"></i> Düzenle</a>
+                                <a class="dropdown-item" data-toggle="modal" data-target="#silmodal" href="#silmodal" onclick="Delete(@item.islem_id)"><i class="dw dw-delete-3"></i> Sil</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+
+
+
+        </tbody>
+    </table>
+
+</div>
+<script>
+    function Edit(id, tutar, tuketim, tip, tip2, kategori) {
+        document.getElementById("modalid").value = id;
+
+        document.getElementById("inputtutar").value = tutar;
+
+        document.getElementById("inputtuketim1").value = tuketim;
+
+         document.getElementById("customCheck3-1").checked = tip;
+        document.getElementById("lblyazi3").innerHTML = Boolean(tip) == true ? "Bireysel" : "Hane";
+
+        document.getElementById("customCheck4-1").checked = tip2;
+        document.getElementById("lblyazi4").innerHTML = Boolean(tip2) == true ? "Harcama" : "Yükleme";
+        document.getElementById("lbltuketim1").style.display = Boolean(tip2) == true ? "block" : "none";
+        document.getElementById("inputtuketim1").style.display = Boolean(tip2) == true ? "block" : "none";
+
+        document.getElementById("optionkategori_" + kategori).selected = "selected";
+
+
+
+    }
+    function Delete(id) {
+        document.getElementById("modalislemid").value = id;
+    }
+</script>

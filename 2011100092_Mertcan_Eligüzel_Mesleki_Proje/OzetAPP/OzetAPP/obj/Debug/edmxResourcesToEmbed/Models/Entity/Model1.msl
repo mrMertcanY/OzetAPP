@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="OzetAppDBModelStoreContainer" CdmEntityContainer="OzetAppDBEntities2">
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="OzetAppDBModel.sysdiagrams">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_haneler">
+      <EntityTypeMapping TypeName="OzetAppDBModel.tbl_haneler">
+        <MappingFragment StoreEntitySet="tbl_haneler">
+          <ScalarProperty Name="hane_sahip" ColumnName="hane_sahip" />
+          <ScalarProperty Name="hane_id" ColumnName="hane_id" />
+          <ScalarProperty Name="hane_kod" ColumnName="hane_kod" />
+          <ScalarProperty Name="hane_durum" ColumnName="hane_durum" />
+          <ScalarProperty Name="hane_bakiye" ColumnName="hane_bakiye" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_islemler">
+      <EntityTypeMapping TypeName="OzetAppDBModel.tbl_islemler">
+        <MappingFragment StoreEntitySet="tbl_islemler">
+          <ScalarProperty Name="islem_id" ColumnName="islem_id" />
+          <ScalarProperty Name="islem_kullanici" ColumnName="islem_kullanici" />
+          <ScalarProperty Name="islem_kategori" ColumnName="islem_kategori" />
+          <ScalarProperty Name="islem_tip" ColumnName="islem_tip" />
+          <ScalarProperty Name="islem_deger1" ColumnName="islem_deger1" />
+          <ScalarProperty Name="islem_deger2" ColumnName="islem_deger2" />
+          <ScalarProperty Name="islem_hane" ColumnName="islem_hane" />
+          <ScalarProperty Name="islem_tarih" ColumnName="islem_tarih" />
+          <ScalarProperty Name="islem_bakiye" ColumnName="islem_bakiye" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_kategoriler">
+      <EntityTypeMapping TypeName="OzetAppDBModel.tbl_kategoriler">
+        <MappingFragment StoreEntitySet="tbl_kategoriler">
+          <ScalarProperty Name="kategori_id" ColumnName="kategori_id" />
+          <ScalarProperty Name="kategori_ad" ColumnName="kategori_ad" />
+          <ScalarProperty Name="kategori_tuketimtur" ColumnName="kategori_tuketimtur" />
+          <ScalarProperty Name="kategori_kullanici" ColumnName="kategori_kullanici" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_kullanicilar">
+      <EntityTypeMapping TypeName="OzetAppDBModel.tbl_kullanicilar">
+        <MappingFragment StoreEntitySet="tbl_kullanicilar">
+          <ScalarProperty Name="kullanici_id" ColumnName="kullanici_id" />
+          <ScalarProperty Name="kullanici_ad" ColumnName="kullanici_ad" />
+          <ScalarProperty Name="kullanici_isim" ColumnName="kullanici_isim" />
+          <ScalarProperty Name="kullanici_sifre" ColumnName="kullanici_sifre" />
+          <ScalarProperty Name="kullanici_hane" ColumnName="kullanici_hane" />
+          <ScalarProperty Name="kullanici_fotograf" ColumnName="kullanici_fotograf" />
+          <ScalarProperty Name="kullanici_bakiye" ColumnName="kullanici_bakiye" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

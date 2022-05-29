@@ -1,0 +1,96 @@
+﻿@using OzetAPP.Models.Entity
+@model List<tbl_kullanicilar>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_mainLayout.cshtml";
+}
+
+@if (ViewData["hata"] != null)
+{
+    <script>
+        window.onload = swal({ text: "Hatalı İşlem", icon: "error", button: "Tamam" }).then((value) => { window.location.href = "/Household/Index"; });
+    </script>
+
+}
+else if (ViewData["basarili"] != null)
+{
+    <script>
+        window.onload = swal({ text: "İşlem Başarılı, Bu Ay İçerisinde Yapılan İşlemleri Silindi.", icon: "success", button: "Tamam" }).then((value) => { window.location.href = "/Household/Index"; });
+    </script>
+}
+
+<div class="modal fade" id="silmodal">
+    <div class="modal-dialog bg-white box-shadow border-radius-10">
+        <div class="modal-content">
+            <div class="modal-header"><h2 class="modal-title text-center text-primary">At</h2></div>
+
+            <form class="form-group" align="center" method="post" action="/Household/HaneAt">
+                <div class="modal-body">
+                    <input id="modalkullaniciid" hidden="hidden" type="text" name="p" />
+                </div>
+                <input type="submit" class="btn btn-outline-danger col-md-3" value="At" />
+                <button type="button" class="btn btn-outline-warning col-md-6" data-dismiss="modal">Vazgeç</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-6 col-sm-12">
+            <div class="title">
+                <h4>Hane</h4>
+            </div>
+            <nav aria-label="breadcrumb" role="navigation">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/Home/Index">Ana Sayfa</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Hane</li>
+                </ol>
+            </nav>
+        </div>
+
+    </div>
+</div>
+
+<div class="contact-directory-list">
+    <ul class="row">
+        @foreach (var item in Model)
+        {
+            <li class="col-xl-2 col-lg-4 col-md-6 col-sm-12">
+                <div class="contact-directory-box">
+                    <div class="contact-dire-info text-center">
+                        <div class="contact-avatar">
+                            <span>
+                                <img src="@item.kullanici_fotograf" alt="">
+                            </span>
+                        </div>
+                        <div class="contact-name">
+                            <h4>@item.kullanici_isim</h4>
+
+                            <div class="work text-success"><i class="ion-android-person"></i> @item.kullanici_ad</div>
+                        </div>
+
+
+                    </div>
+                    @if (int.Parse(ViewData["ownerid"].ToString()) == int.Parse(Session["userId"].ToString()) && ((int)Session["userId"]) != item.kullanici_id)
+                    {
+                        <div class="view-contact" style="margin-top:22%">
+                            <a href="#silmodal" data-toggle="modal" data-taget="#silmodal" onclick="Remove(@item.kullanici_id)">Haneden At</a>
+                        </div>
+                    }
+
+                </div>
+            </li>
+        }
+
+
+    </ul>
+</div>
+
+<script>
+    function Remove(id) {
+        document.getElementById("modalkullaniciid").value = id;
+    }
+</script>
+

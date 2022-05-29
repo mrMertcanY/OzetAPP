@@ -1,0 +1,137 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_mainLayout.cshtml";
+}
+
+<script src="~/Scripts/chart.min.js"></script>
+
+<br />
+
+<div class="row pb-10">
+    <div class="col-xl-3 col-lg-3 col-md-6 mb-20">
+        <div class="card-box height-100-p widget-style3">
+            <div class="d-flex flex-wrap">
+                <div class="widget-data">
+                    <div class="weight-700 font-24 text-dark">@ViewData["encokkategori"]</div>
+                    <div class="font-14 text-secondary weight-500">Bu Ay En Çok Tükettiğin Kategori</div>
+                </div>
+                <div class="widget-icon">
+                    <div class="icon" data-color="#ff5b5b"><i class="icon-copy dw dw-profits"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-3 col-md-6 mb-20">
+        <div class="card-box height-100-p widget-style3">
+            <div class="d-flex flex-wrap">
+                <div class="widget-data">
+                    <div class="weight-700 font-24 text-dark">@ViewData["enazkategori"]</div>
+                    <div class="font-14 text-secondary weight-500">En Az Tükettiğin Kategori</div>
+                </div>
+                <div class="widget-icon">
+                    <div class="icon" data-color="#00eccf"><span class="icon-copy dw dw-loss"></span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-3 col-md-6 mb-20">
+        <div class="card-box height-100-p widget-style3">
+            <div class="d-flex flex-wrap">
+                <div class="widget-data">
+                    <div class="weight-700 font-24 text-dark">@ViewData["toplamharcama"]₺</div>
+                    <div class="font-14 text-secondary weight-500">Toplam Harcaman</div>
+                </div>
+                <div class="widget-icon">
+                    <div class="icon" data-color="#fff200"><i class="icon-copy dw dw-shopping-bag1" aria-hidden="true"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-lg-3 col-md-6 mb-20">
+        <div class="card-box height-100-p widget-style3">
+            <div class="d-flex flex-wrap">
+                <div class="widget-data">
+                    <div class="weight-700 font-24 text-dark">@ViewData["bakiye"]₺</div>
+                    <div class="font-14 text-secondary weight-500">Güncel Bakiye</div>
+                </div>
+                <div class="widget-icon">
+                    <div class="icon" data-color="#09cc06"><i class="icon-copy fa fa-money" aria-hidden="true"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <button class="btn btn-block" data-toggle="collapse" data-target="#faq1-1">
+                Hane
+            </button>
+        </div>
+        <div id="faq1-1" class="collapse show">
+            <div class="card-body">
+                <div class="col-xl-3 col-lg-3 col-md-6 mb-20">
+                    <div class="card-box height-100-p widget-style3">
+                        <div class="d-flex flex-wrap">
+                            <div class="widget-data">
+                                <div class="weight-700 font-24 text-dark">@ViewData["haneencokkategori"]</div>
+                                <div class="font-14 text-secondary weight-500">Bu Ay En Çok Tüketilen Kategori</div>
+                            </div>
+                            <div class="widget-icon">
+                                <div class="icon" data-color="#ff5b5b"><i class="icon-copy dw dw-profits"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-6 mb-20">
+                    <div class="card-box height-100-p widget-style3">
+                        <div class="d-flex flex-wrap">
+                            <div class="widget-data">
+                                <div class="weight-700 font-24 text-dark">@ViewData["haneenazkategori"]</div>
+                                <div class="font-14 text-secondary weight-500">En Az Tüketilen Kategori</div>
+                            </div>
+                            <div class="widget-icon">
+                                <div class="icon" data-color="#00eccf"><span class="icon-copy dw dw-loss"></span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-6 mb-20">
+                    <div class="card-box height-100-p widget-style3">
+                        <div class="d-flex flex-wrap">
+                            <div class="widget-data">
+                                <div class="weight-700 font-24 text-dark">@ViewData["hanetoplamharcama"]₺</div>
+                                <div class="font-14 text-secondary weight-500">Toplam Harcama</div>
+                            </div>
+                            <div class="widget-icon">
+                                <div class="icon" data-color="#fff200"><i class="icon-copy dw dw-shopping-bag1" aria-hidden="true"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-lg-3 col-md-6 mb-20">
+                    <div class="card-box height-100-p widget-style3">
+                        <div class="d-flex flex-wrap">
+                            <div class="widget-data">
+                                <div class="weight-700 font-24 text-dark">@ViewData["hanebakiye"]₺</div>
+                                <div class="font-14 text-secondary weight-500">Hane Bakiye</div>
+                            </div>
+
+                            <div class="widget-icon">
+                                <div class="icon" data-color="#09cc06"><i class="icon-copy fa fa-money" aria-hidden="true"></i></div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+
+
+
+

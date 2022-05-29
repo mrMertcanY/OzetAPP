@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="OzetAppDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="tbl_haneler">
+    <Key>
+      <PropertyRef Name="hane_id" />
+    </Key>
+    <Property Name="hane_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="hane_kod" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="hane_durum" Type="Boolean" />
+    <Property Name="hane_bakiye" Type="Decimal" Precision="18" Scale="2" />
+    <NavigationProperty Name="tbl_islemler" Relationship="Self.FK_tbl_islemler_tbl_haneler" FromRole="tbl_haneler" ToRole="tbl_islemler" />
+    <NavigationProperty Name="tbl_kullanicilar" Relationship="Self.FK_tbl_kullanicilar_tbl_haneler" FromRole="tbl_haneler" ToRole="tbl_kullanicilar" />
+    <Property Name="hane_sahip" Type="Int32" />
+    <NavigationProperty Name="tbl_kullanicilar1" Relationship="OzetAppDBModel.FK_tbl_haneler_tbl_kullanicilar" FromRole="tbl_haneler" ToRole="tbl_kullanicilar" />
+  </EntityType>
+  <EntityType Name="tbl_islemler">
+    <Key>
+      <PropertyRef Name="islem_id" />
+    </Key>
+    <Property Name="islem_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="islem_kullanici" Type="Int32" />
+    <Property Name="islem_kategori" Type="Int32" />
+    <Property Name="islem_tip" Type="Boolean" />
+    <Property Name="islem_deger1" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="islem_deger2" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="islem_hane" Type="Int32" />
+    <Property Name="islem_tarih" Type="DateTime" Precision="3" />
+    <Property Name="islem_bakiye" Type="Decimal" Precision="18" Scale="2" />
+    <NavigationProperty Name="tbl_haneler" Relationship="Self.FK_tbl_islemler_tbl_haneler" FromRole="tbl_islemler" ToRole="tbl_haneler" />
+    <NavigationProperty Name="tbl_kategoriler" Relationship="Self.FK_tbl_islemler_tbl_kategoriler" FromRole="tbl_islemler" ToRole="tbl_kategoriler" />
+    <NavigationProperty Name="tbl_kullanicilar" Relationship="Self.FK_tbl_islemler_tbl_kullanicilar" FromRole="tbl_islemler" ToRole="tbl_kullanicilar" />
+  </EntityType>
+  <EntityType Name="tbl_kategoriler">
+    <Key>
+      <PropertyRef Name="kategori_id" />
+    </Key>
+    <Property Name="kategori_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="kategori_ad" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="kategori_tuketimtur" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="kategori_kullanici" Type="Int32" />
+    <NavigationProperty Name="tbl_islemler" Relationship="Self.FK_tbl_islemler_tbl_kategoriler" FromRole="tbl_kategoriler" ToRole="tbl_islemler" />
+    <NavigationProperty Name="tbl_kullanicilar" Relationship="Self.FK_tbl_kategoriler_tbl_kullanicilar" FromRole="tbl_kategoriler" ToRole="tbl_kullanicilar" />
+  </EntityType>
+  <EntityType Name="tbl_kullanicilar">
+    <Key>
+      <PropertyRef Name="kullanici_id" />
+    </Key>
+    <Property Name="kullanici_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="kullanici_ad" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="kullanici_isim" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="kullanici_sifre" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="kullanici_hane" Type="Int32" />
+    <Property Name="kullanici_fotograf" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="kullanici_bakiye" Type="Decimal" Precision="18" Scale="2" />
+    <NavigationProperty Name="tbl_haneler" Relationship="Self.FK_tbl_kullanicilar_tbl_haneler" FromRole="tbl_kullanicilar" ToRole="tbl_haneler" />
+    <NavigationProperty Name="tbl_islemler" Relationship="Self.FK_tbl_islemler_tbl_kullanicilar" FromRole="tbl_kullanicilar" ToRole="tbl_islemler" />
+    <NavigationProperty Name="tbl_kategoriler" Relationship="Self.FK_tbl_kategoriler_tbl_kullanicilar" FromRole="tbl_kullanicilar" ToRole="tbl_kategoriler" />
+    <NavigationProperty Name="tbl_haneler1" Relationship="OzetAppDBModel.FK_tbl_haneler_tbl_kullanicilar" FromRole="tbl_kullanicilar" ToRole="tbl_haneler" />
+  </EntityType>
+  <Association Name="FK_tbl_islemler_tbl_haneler">
+    <End Role="tbl_haneler" Type="Self.tbl_haneler" Multiplicity="0..1" />
+    <End Role="tbl_islemler" Type="Self.tbl_islemler" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_haneler">
+        <PropertyRef Name="hane_id" />
+      </Principal>
+      <Dependent Role="tbl_islemler">
+        <PropertyRef Name="islem_hane" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbl_kullanicilar_tbl_haneler">
+    <End Role="tbl_haneler" Type="Self.tbl_haneler" Multiplicity="0..1" />
+    <End Role="tbl_kullanicilar" Type="Self.tbl_kullanicilar" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_haneler">
+        <PropertyRef Name="hane_id" />
+      </Principal>
+      <Dependent Role="tbl_kullanicilar">
+        <PropertyRef Name="kullanici_hane" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbl_islemler_tbl_kategoriler">
+    <End Role="tbl_kategoriler" Type="Self.tbl_kategoriler" Multiplicity="0..1" />
+    <End Role="tbl_islemler" Type="Self.tbl_islemler" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_kategoriler">
+        <PropertyRef Name="kategori_id" />
+      </Principal>
+      <Dependent Role="tbl_islemler">
+        <PropertyRef Name="islem_kategori" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbl_islemler_tbl_kullanicilar">
+    <End Role="tbl_kullanicilar" Type="Self.tbl_kullanicilar" Multiplicity="0..1" />
+    <End Role="tbl_islemler" Type="Self.tbl_islemler" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_kullanicilar">
+        <PropertyRef Name="kullanici_id" />
+      </Principal>
+      <Dependent Role="tbl_islemler">
+        <PropertyRef Name="islem_kullanici" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbl_kategoriler_tbl_kullanicilar">
+    <End Role="tbl_kullanicilar" Type="Self.tbl_kullanicilar" Multiplicity="0..1" />
+    <End Role="tbl_kategoriler" Type="Self.tbl_kategoriler" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_kullanicilar">
+        <PropertyRef Name="kullanici_id" />
+      </Principal>
+      <Dependent Role="tbl_kategoriler">
+        <PropertyRef Name="kategori_kullanici" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="OzetAppDBEntities2" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="tbl_haneler" EntityType="Self.tbl_haneler" />
+    <EntitySet Name="tbl_islemler" EntityType="Self.tbl_islemler" />
+    <EntitySet Name="tbl_kategoriler" EntityType="Self.tbl_kategoriler" />
+    <EntitySet Name="tbl_kullanicilar" EntityType="Self.tbl_kullanicilar" />
+    <AssociationSet Name="FK_tbl_islemler_tbl_haneler" Association="Self.FK_tbl_islemler_tbl_haneler">
+      <End Role="tbl_haneler" EntitySet="tbl_haneler" />
+      <End Role="tbl_islemler" EntitySet="tbl_islemler" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbl_kullanicilar_tbl_haneler" Association="Self.FK_tbl_kullanicilar_tbl_haneler">
+      <End Role="tbl_haneler" EntitySet="tbl_haneler" />
+      <End Role="tbl_kullanicilar" EntitySet="tbl_kullanicilar" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbl_islemler_tbl_kategoriler" Association="Self.FK_tbl_islemler_tbl_kategoriler">
+      <End Role="tbl_kategoriler" EntitySet="tbl_kategoriler" />
+      <End Role="tbl_islemler" EntitySet="tbl_islemler" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbl_islemler_tbl_kullanicilar" Association="Self.FK_tbl_islemler_tbl_kullanicilar">
+      <End Role="tbl_kullanicilar" EntitySet="tbl_kullanicilar" />
+      <End Role="tbl_islemler" EntitySet="tbl_islemler" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbl_kategoriler_tbl_kullanicilar" Association="Self.FK_tbl_kategoriler_tbl_kullanicilar">
+      <End Role="tbl_kullanicilar" EntitySet="tbl_kullanicilar" />
+      <End Role="tbl_kategoriler" EntitySet="tbl_kategoriler" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbl_haneler_tbl_kullanicilar" Association="OzetAppDBModel.FK_tbl_haneler_tbl_kullanicilar">
+      <End Role="tbl_kullanicilar" EntitySet="tbl_kullanicilar" />
+      <End Role="tbl_haneler" EntitySet="tbl_haneler" />
+    </AssociationSet>
+  </EntityContainer>
+  <Association Name="FK_tbl_haneler_tbl_kullanicilar">
+    <End Type="OzetAppDBModel.tbl_kullanicilar" Role="tbl_kullanicilar" Multiplicity="0..1" />
+    <End Type="OzetAppDBModel.tbl_haneler" Role="tbl_haneler" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_kullanicilar">
+        <PropertyRef Name="kullanici_id" />
+      </Principal>
+      <Dependent Role="tbl_haneler">
+        <PropertyRef Name="hane_sahip" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

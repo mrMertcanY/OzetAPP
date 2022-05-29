@@ -1,0 +1,155 @@
+﻿@using OzetAPP.Models.Entity
+@model List<tbl_kategoriler>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_mainLayout.cshtml";
+}
+
+@if (ViewData["hata"] != null)
+{
+    <script>
+        window.onload = swal({ text: "Hatalı İşlem Yaptığınız İçin Eklenemedi", icon: "error", button: "Tamam" }).then((value) => { window.location.href = "/Category/Index"; });
+    </script>
+
+}
+else if (ViewData["basarili"] != null)
+{
+    <script>
+        window.onload = swal({ text: "İşlem Başarılı", icon: "success", button: "Tamam" }).then((value) => { window.location.href = "/Category/Index"; });
+    </script>
+}
+
+<div class="modal fade" id="eklemodal">
+    <div class="modal-dialog bg-white box-shadow border-radius-10">
+        <div class="modal-content">
+            <div class="modal-header"><h2 class="modal-title text-center text-primary">Ekle</h2></div>
+
+            <form class="form-group" align="center" method="post" action="/Category/KategoriEkle">
+                <div class="modal-body">
+
+                    <label style="font-weight:bold">Ad</label>
+                    <br />
+                    <input class="form-control" name="kategori_ad" type="text">
+
+                    <br />
+                    <label style="font-weight:bold">Tüketim Türü</label>
+                    <input class="form-control" name="kategori_tuketimtur" type="text" maxlength="10">
+
+                </div>
+                <input type="submit" class="btn btn-outline-primary form-control" value="Ekle" />
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="guncellemodal">
+    <div class="modal-dialog bg-white box-shadow border-radius-10">
+        <div class="modal-content">
+            <div class="modal-header"><h2 class="modal-title text-center text-primary">Güncelle</h2></div>
+
+            <form class="form-group" align="center" method="post" action="/Category/KategoriGuncelle">
+                <div class="modal-body">
+                    <input id="modalid" hidden="hidden" type="text" name="kategori_id" />
+                    <label style="font-weight:bold">Ad</label>
+                    <br />
+                    <input id="inpad" class="form-control" name="kategori_ad" type="text">
+
+                    <br />
+                    <label style="font-weight:bold">Tüketim Türü</label>
+                    <input id="inptur" class="form-control" name="kategori_tuketimtur" type="text" maxlength="10">
+
+                </div>
+                <input type="submit" class="btn btn-outline-primary form-control" value="Güncelle" />
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="silmodal">
+    <div class="modal-dialog bg-white box-shadow border-radius-10">
+        <div class="modal-content">
+            <div class="modal-header"><h2 class="modal-title text-center text-primary">Sil</h2></div>
+
+            <form class="form-group" align="center" method="post" action="/Category/KategoriSil">
+                <div class="modal-body">
+                    <input id="modalislemid" hidden="hidden" type="text" name="p" />
+                </div>
+                <input type="submit" class="btn btn-outline-danger col-md-3" value="Sil" />
+                <button type="button" class="btn btn-outline-warning col-md-6" data-dismiss="modal">Vazgeç</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-6 col-sm-12">
+            <div class="title">
+                <h4>Kategoriler</h4>
+            </div>
+            <nav aria-label="breadcrumb" role="navigation">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/Home/Index">Ana Sayfa</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Kategoriler</li>
+                </ol>
+            </nav>
+        </div>
+
+    </div>
+</div>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-xl-2 col-md-4 mb-30">
+            <div class="card-box pricing-card mt-30 mb-30">
+                <div class="pricing-icon">
+                    <img src="~/deskapp-master/vendors/images/icon-Cash.png" alt="">
+                </div>
+                <div class="price-title">
+                    @item.kategori_ad
+                </div>
+                <div class="pricing-price">
+                    <h1><sub> @(item.kategori_tuketimtur == null ? "YOK" : item.kategori_tuketimtur)</sub></h1>
+                </div>
+                <div class="text">
+
+                </div>
+                <div class="row justify-content-around padding-bottom-30">
+                    <a href="#guncellemodal" data-toggle="modal" data-target="#guncellemodal" onclick="Update(@item.kategori_id, `@item.kategori_ad`, `@item.kategori_tuketimtur`)" data-arg1='@item.kategori_id' data-arg2="@item.kategori_ad" class="btn btn-outline-info btn-rounded btn-lg col-5">Düzenle</a>
+                    <a href="#silmodal" data-toggle="modal" data-target="#silmodal" onclick="Delete(@item.kategori_id)" class="btn btn-outline-danger btn-rounded btn-lg col-4">Sil</a>
+                </div>
+
+            </div>
+        </div>
+    }
+
+    <div class="col-xl-2 col-md-4 mb-30 align-self-xl-center">
+        <div class="card-box pricing-card mt-30 mb-30">
+
+            <div class="pricing-price ">
+                <a href="#eklemodal" data-toggle="modal" data-target="#eklemodal" class="btn btn-outline-success btn-rounded btn-lg">Ekle</a>
+            </div>
+
+
+        </div>
+    </div>
+
+    <script>
+        function Update(id,ad,tur) {
+            document.getElementById("modalid").value = id;
+            document.getElementById("inpad").value = ad;
+            document.getElementById("inptur").value = tur;
+        }
+
+        function Delete(id) {
+            document.getElementById("modalislemid").value = id;
+        }
+    </script>
+</div>
+
+
+

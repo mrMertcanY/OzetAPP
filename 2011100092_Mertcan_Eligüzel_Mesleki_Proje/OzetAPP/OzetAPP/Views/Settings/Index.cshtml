@@ -1,0 +1,67 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_mainLayout.cshtml";
+}
+
+@if (ViewData["hata"] != null)
+{
+    <script>
+        window.onload = swal({ text: "Hatalı İşlem", icon: "error", button: "Tamam" }).then((value) => { window.location.href = "/Settings/Index"; });
+    </script>
+
+}
+else if (ViewData["basarili"] != null)
+{
+    <script>
+        window.onload = swal({ text: "İşlem Başarılı", icon: "success", button: "Tamam" }).then((value) => { window.location.href = "/Settings/Index"; });
+    </script>
+}
+
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-6 col-sm-12">
+            <div class="title">
+                <h4>Ayarlar</h4>
+            </div>
+            <nav aria-label="breadcrumb" role="navigation">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/Home/Index">Ana Sayfa</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Ayarlar</li>
+                </ol>
+            </nav>
+        </div>
+
+    </div>
+</div>
+
+<div class="row">
+    @if (ViewData["hanesahip"] != null)
+    {
+        <div class="col-md-4 col-sm-12 mb-30">
+            <div class="card text-white bg-dark card-box">
+                <div class="card-header">Hane Katıl</div>
+                <div class="card-body">
+                    <form method="post" action="/Settings/HaneKatil">
+                        <input type="text" class="form-control" placeholder="Hane Kodu" name="p" />
+                        <br />
+                        <button type="submit" class="btn btn-rounded btn-success"><i class="icon-copy dw dw-enter-1"> Katıl</i></button>
+                    </form>
+                </div>
+            </div>
+        </div>}
+    <div class="col-md-4 col-sm-12 mb-30 align-self-xl-center">
+        <div class="card text-white bg-dark card-box ">
+            <div class="card-header">Hane</div>
+            <div class="card-body">
+                <h5 class="card-title text-white">@ViewData["hanekod"]</h5>
+                @if (ViewData["hanesahip"] != null)
+                {<a href="@Url.Action("HaneYenile","Settings")" class="btn btn-rounded btn-light"><i class="icon-copy dw dw-refresh1"> Yenile</i></a>}
+                @if (ViewData["hanesahip"] == null)
+                {<a href="@Url.Action("HaneAyril","Settings")" class="btn btn-rounded btn-danger"><i class="icon-copy dw dw-exit"> Ayrıl</i></a>}
+            </div>
+        </div>
+    </div>
+
+
+</div>

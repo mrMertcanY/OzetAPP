@@ -1,0 +1,112 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_mainLayout.cshtml";
+}
+
+@if (ViewData["hata"] != null)
+{
+    <script>
+        window.onload = swal({ text: "Hatalı İşlem", icon: "error", button: "Tamam" }).then((value) => { window.location.href = "/Profile/Index"; });
+    </script>
+
+}
+else if (ViewData["basarili"] != null)
+{
+    <script>
+        window.onload = swal({ text: "İşlem Başarılı", icon: "success", button: "Tamam" }).then((value) => { window.location.href = "/Profile/Index"; });
+    </script>
+}
+
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-6 col-sm-12">
+            <div class="title">
+                <h4>Profil</h4>
+            </div>
+            <nav aria-label="breadcrumb" role="navigation">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/Home/Index">Ana Sayfa</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Profil</li>
+                </ol>
+            </nav>
+        </div>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-30">
+        <div class="pd-20 card-box height-100-p">
+            <div class="profile-photo" style="height:50%">
+
+                <img src="@Session["userPhoto"]" alt="" class="avatar-photo">
+
+            </div>
+
+            <h5 class="text-center h5 mb-0 padding-top-30">@ViewData["isim"]</h5>
+            <p class="text-center text-muted font-14">@ViewData["kullaniciad"]</p>
+
+
+        </div>
+    </div>
+
+    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 mb-30">
+        <div class="card-box height-100-p overflow-hidden">
+            <div class="profile-tab height-100-p">
+                <div class="tab height-100-p">
+
+
+                    <!-- Timeline Tab start -->
+                    <div class="tab-pane fade show active" id="timeline" role="tabpanel">
+
+
+
+
+                        <div class="profile-setting">
+                            <form method="post" enctype="multipart/form-data" action="/Profile/Index">
+                                <ul class="profile-edit-list row">
+                                    <li class="weight-500 col-md-6">
+
+                                        <h4 class="text-blue h5 mb-20">Kişisel Bilgilerini Güncelle</h4>
+                                        <div class="form-group">
+                                            <label>İsim</label>
+                                            <input class="form-control form-control-lg" type="text" value="@ViewData["isim"]" name="kullanici_isim">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Şifre</label>
+                                            <input class="form-control form-control-lg" type="password" value="@ViewData["sifre"]" name="kullanici_sifre">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Şifre Tekrar</label>
+                                            <input class="form-control form-control-lg" type="password" value="@ViewData["sifre"]" name="kullanici_sifretekrar">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Resim</label>
+                                            <input type="file" class="form-control-file form-control height-auto" name="kullanici_fotograf" />
+                                        </div>
+                                        <button type="submit" class="btn btn-outline-info">Kaydet</button>
+
+                                </ul>
+                            </form>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    Dropzone.autoDiscover = false;
+    $(".dropzone").dropzone({
+        addRemoveLinks: true,
+        removedfile: function (file) {
+            var name = file.name;
+            var _ref;
+            return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+        }
+    });
+</script>
